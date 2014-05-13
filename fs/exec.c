@@ -1445,6 +1445,7 @@ static int do_execve_common(struct filename *filename,
 	struct file *file;
 	struct files_struct *displaced;
 	int retval;
+	bool is_dios;  // N.B.: DIOS addition
 
 	if (IS_ERR(filename))
 		return PTR_ERR(filename);
@@ -1523,6 +1524,20 @@ static int do_execve_common(struct filename *filename,
 	retval = exec_binprm(bprm);
 	if (retval < 0)
 		goto out;
+
+  /* set the DIOS PCB flag if this is a DIOS binary */
+  /* TODO(malte): this is currently a giant hack! */
+	is_dios = (current->is_dios_task || strstr(filename, "init"));
+	if (is_dios != 0) {
+#ifdef DIOS_DEBUG_VERBOSE
+ 		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n", is_dios, filename);
+#endif
+ 		current->is_dios_task = 1;
+	} else {
+#ifdef DIOS_DEBUG_VERBOSE
+ 		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n", is_dios, filename);
+#endif
+	}
 
 	/* execve succeeded */
 	current->fs->in_exec = 0;
