@@ -1,35 +1,7 @@
 #define CONFIG_DIOS_PCBEXT
 
-#include <asm-generic/current.h>
-#include <linux/types.h>
-#include <linux/sched.h>
-#include <linux/module.h>
-#include <linux/printk.h>
-
-#include "dios.h"
-
-#define DIOS_MODULE_NAME "dios"
-
-bool module_loaded(void) {
-  /* check if dios module is loaded */
-  struct module *mod;
-
-  if (mutex_lock_interruptible(&module_mutex) != 0)
-    return -EINTR;
-  mod = find_module(DIOS_MODULE_NAME);
-
-  if (!mod) {
-    printk("DIOS module NOT loaded.\n");
-    goto out;
-  } else {
-    printk("DIOS module loaded! :)\n");
-    goto out; 
-  }
-
-out:
-  mutex_unlock(&module_mutex);
-  return (mod != 0);
-}
+#include "include/dios.h"
+#include "include/dal_linux.h"
 
 /* syscall handler for DIOS_CREATE */
 asmlinkage long sys_dios_create(void) {
@@ -93,7 +65,7 @@ asmlinkage long sys_dios_select(void) {
 
 /* syscall handler for DIOS_TEST */
 asmlinkage long sys_dios_test(void) {
-  module_loaded();
+  dios_module_loaded();
   printk("Hello world from sys_dios_test()! I was called from PID %d, "
          "which %s a DIOS task\n", current->pid,
           (current->is_dios_task ? "IS" : "IS NOT"));
