@@ -1,5 +1,7 @@
 #define CONFIG_DIOS_PCBEXT
 
+#include <linux/syscalls.h>
+
 #include "include/dios.h"
 #include "include/dal_linux.h"
 
@@ -64,8 +66,10 @@ asmlinkage long sys_dios_select(void) {
 }
 
 /* syscall handler for DIOS_TEST */
-asmlinkage long sys_dios_test(void) {
-  dios_module_loaded();
+SYSCALL_DEFINE0(dios_test) {
+  if (!dios_module_loaded()) {
+    return -ENOSYS;
+  }
   printk("Hello world from sys_dios_test()! I was called from PID %d, "
          "which %s a DIOS task\n", current->pid,
           (current->is_dios_task ? "IS" : "IS NOT"));
