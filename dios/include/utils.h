@@ -6,15 +6,16 @@
  *  DIOS Adaptation Layer (DAL) header for Linux.
  */
 
-#ifndef _DIOS_DAL_LINUX_H
-#define _DIOS_DAL_LINUX_H
+#ifndef DAL_LINUX_H
+#define DAL_LINUX_H
 
 #include "include/dios.h"
 #include "include/dal.h"
 
 #include <linux/module.h>
 
+void* dios_get_syscall_handler_address(const char* syscall);
 bool dios_module_loaded(void);
+//void dios_task_or_die(const char* syscall);
 
-
-#endif  // _DIOS_DAL_LINUX_H
+#endif  // DAL_LINUX_H
