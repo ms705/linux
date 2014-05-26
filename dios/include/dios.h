@@ -19,7 +19,9 @@
 #include "include/dios_name.h"
 #include "include/dios_reference.h"
 
-asmlinkage long sys_dios_create(void);
+typedef uint64_t dios_flags_t;
+
+asmlinkage long sys_dios_create(dios_flags_t flags, dios_name_t** name, dios_ref_t** ref);
 asmlinkage long sys_dios_lookup(void);
 asmlinkage long sys_dios_run(void);
 asmlinkage long sys_dios_copy(void);

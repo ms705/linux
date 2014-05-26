@@ -17,9 +17,23 @@
 #include "include/utils.h"
 
 /* syscall handler for DIOS_CREATE */
-asmlinkage long sys_dios_create(void) {
-  printk("dios_create stub called!\n");
-  return 0;
+SYSCALL_DEFINE3(dios_create, dios_flags_t, flags, dios_name_t**, name,
+                dios_ref_t**, ref) {
+  long (*call_addr)(dios_flags_t, dios_name_t**, dios_ref_t**);
+  /* Is the DIOS module loaded? If not, die. */
+  if (!dios_module_loaded()) {
+    return -ENOSYS;
+  }
+  /* Retrieve handler address from symbol table */
+  call_addr = (long (*)(dios_flags_t, dios_name_t**, dios_ref_t**))
+      dios_get_syscall_handler_address("dios_create");
+  if (call_addr == NULL) {
+    printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
+           "missing!", "dios_create");
+    return -ENOSYS;
+  }
+  /* Invoke handler */
+  return (*call_addr)(flags, name, ref);
 }
 
 /* syscall handler for DIOS_LOOKUP */
@@ -90,12 +104,20 @@ SYSCALL_DEFINE0(dios_select) {
 
 /* syscall handler for DIOS_TEST */
 SYSCALL_DEFINE0(dios_test) {
-  void* call_addr;
+  long (*call_addr)(void);
+  /* Is the DIOS module loaded? If not, die. */
   if (!dios_module_loaded()) {
     return -ENOSYS;
   }
-  call_addr = dios_get_syscall_handler_address("dios_test");
-  return (*(long (*)(void))call_addr)();
+  /* Retrieve handler address from symbol table */
+  call_addr = (long (*)(void))dios_get_syscall_handler_address("dios_test");
+  if (call_addr == NULL) {
+    printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
+           "missing!", "dios_test");
+    return -ENOSYS;
+  }
+  /* Invoke handler */
+  return (*call_addr)();
 }
 
 
