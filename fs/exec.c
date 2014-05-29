@@ -1529,13 +1529,13 @@ static int do_execve_common(struct filename *filename,
   /* TODO(malte): this is currently a giant hack! */
 	is_dios = (current->is_dios_task || strstr(filename, "init"));
 	if (is_dios != 0) {
-#ifdef DIOS_DEBUG_VERBOSE
- 		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n", is_dios, filename);
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+ 		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n", is_dios, filename->name);
 #endif
  		current->is_dios_task = 1;
 	} else {
-#ifdef DIOS_DEBUG_VERBOSE
- 		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n", is_dios, filename);
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+ 		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n", is_dios, filename->name);
 #endif
 	}
 

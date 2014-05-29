@@ -8,8 +8,6 @@
  * not).
  */
 
-#define CONFIG_DIOS_PCBEXT
-
 #include <linux/syscalls.h>
 #include <linux/signal.h>
 

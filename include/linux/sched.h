@@ -1581,8 +1581,7 @@ struct task_struct {
 	unsigned int	sequential_io;
 	unsigned int	sequential_io_avg;
 #endif
-//#ifdef CONFIG_DIOS_PCBEXT
-#if 1
+#ifdef CONFIG_DIOS_PCBEXT
 	bool is_dios_task;
 	bool is_dios_coordinator;
 #endif

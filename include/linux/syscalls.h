@@ -856,7 +856,3 @@ asmlinkage long sys_kcmp(pid_t pid1, pid_t pid2, int type,
 			 unsigned long idx1, unsigned long idx2);
 asmlinkage long sys_finit_module(int fd, const char __user *uargs, int flags);
 #endif
-
-#ifdef CONFIG_DIOS_SYSCALLS
-asmlinkage long sys_dios_test();
-#endif

@@ -9,8 +9,6 @@
 #ifndef _DIOS_DIOS_H
 #define _DIOS_DIOS_H
 
-#define CONFIG_DIOS_PCBEXT
-
 #include <linux/types.h>
 #include <linux/sched.h>
 #include <asm-generic/current.h>

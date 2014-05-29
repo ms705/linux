@@ -1,21 +1,27 @@
 menu "DIOS extensions"
 
-config CONFIG_DIOS_PCBEXT
+config DIOS_PCBEXT
 	bool "PCB tag for DIOS tasks"
 	default n
 	help
 	  Add an element to the PCB indicating if a process represents a DIOS task.
 
-config CONFIG_DIOS_SYSCALLS
+config DIOS_SYSCALLS
 	bool "Enable additional DIOS syscalls"
 	default n
 	help
 	  Enables the additional syscalls introduced by DIOS.
 
-config CONFIG_DIOS_RESTRICT_SYSCALLS
+config DIOS_RESTRICT_SYSCALLS
 	bool "Restrict legacy syscalls for DIOS tasks"
 	default n
 	help
 	  Disallow legacy syscalls being invoked by DIOS task binaries.
+
+config DIOS_DEBUG_VERBOSE
+	bool "Verbose debug output"
+	default n
+	help
+		Produce noisy debug output from DIOS kernel code.
 
 endmenu
