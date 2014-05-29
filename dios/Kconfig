@@ -12,7 +12,13 @@ config DIOS_SYSCALLS
 	help
 	  Enables the additional syscalls introduced by DIOS.
 
-config DIOS_RESTRICT_SYSCALLS
+config DIOS_RESTRICT_LEGACY_SYSCALLS
+	bool "Restrict legacy syscalls for DIOS tasks"
+	default n
+	help
+	  Disallow legacy syscalls being invoked by DIOS task binaries.
+
+config DIOS_RESTRICT_DIOS_SYSCALLS
 	bool "Restrict legacy syscalls for DIOS tasks"
 	default n
 	help
