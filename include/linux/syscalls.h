@@ -78,6 +78,9 @@ struct sigaltstack;
 #include <linux/quota.h>
 #include <linux/key.h>
 #include <trace/syscall.h>
+#ifdef CONFIG_DIOS_RESTRICT_LEGACY_SYSCALLS
+#include <linux/string.h>
+#endif
 
 /*
  * __MAP - apply a macro to syscall arguments
@@ -168,6 +171,16 @@ extern struct trace_event_functions exit_syscall_print_funcs;
 #define SYSCALL_METADATA(sname, nb, ...)
 #endif
 
+#ifdef CONFIG_DIOS_RESTRICT_LEGACY_SYSCALLS
+#define SYSCALL_DIOS_CHECKPERMITTED(x, name, ...)    \
+  if (!(strstr(#name, "dios")) && get_current()->is_dios_task) { \
+    do_exit(SIGSYS); \
+		return -1; \
+  }
+#else
+#define SYSCALL_DIOS_CHECKPERMITTED(x, name, ...)
+#endif
+
 #define SYSCALL_DEFINE0(sname)					\
 	SYSCALL_METADATA(_##sname, 0);				\
 	asmlinkage long sys_##sname(void)
@@ -191,7 +204,9 @@ extern struct trace_event_functions exit_syscall_print_funcs;
 	asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
 	asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
 	{								\
-		long ret = SYSC##name(__MAP(x,__SC_CAST,__VA_ARGS__));	\
+		long ret;     \
+		SYSCALL_DIOS_CHECKPERMITTED(x, name, __VA_ARGS__); \
+		ret = SYSC##name(__MAP(x,__SC_CAST,__VA_ARGS__));	\
 		__MAP(x,__SC_TEST,__VA_ARGS__);				\
 		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
 		return ret;						\
