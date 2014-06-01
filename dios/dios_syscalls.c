@@ -35,14 +35,15 @@ SYSCALL_DEFINE3(dios_create, dios_flags_t, flags, dios_name_t**, name,
 }
 
 /* syscall handler for DIOS_LOOKUP */
-SYSCALL_DEFINE2(dios_lookup, dios_flags_t, flags, dios_name_t*, name) {
-  long (*call_addr)(dios_flags_t, dios_name_t*);
+SYSCALL_DEFINE4(dios_lookup, dios_flags_t, flags, dios_name_t*, name,
+                dios_ref_t**, refs, uint64_t*, refs_count) {
+  long (*call_addr)(dios_flags_t, dios_name_t*, dios_ref_t**, uint64_t*);
   /* Is the DIOS module loaded? If not, die. */
   if (!dios_module_loaded()) {
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = (long (*)(dios_flags_t, dios_name_t*))
+  call_addr = (long (*)(dios_flags_t, dios_name_t*, dios_ref_t**, uint64_t*))
       dios_get_syscall_handler_address("dios_lookup");
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
@@ -50,7 +51,7 @@ SYSCALL_DEFINE2(dios_lookup, dios_flags_t, flags, dios_name_t*, name) {
     return -ENOSYS;
   }
   /* Invoke handler */
-  return (*call_addr)(flags, name);
+  return (*call_addr)(flags, name, refs, refs_count);
 }
 
 /* syscall handler for DIOS_RUN */
@@ -66,7 +67,7 @@ asmlinkage long sys_dios_copy(void) {
 }
 
 /* syscall handler for DIOS_DELETE */
-asmlinkage long sys_dios_delete(void) {
+SYSCALL_DEFINE2(dios_delete, dios_flags_t, flags, dios_ref_t*, ref) {
   printk("dios_delete stub called!\n");
   return 0;
 }

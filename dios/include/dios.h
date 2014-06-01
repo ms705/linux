@@ -20,10 +20,10 @@
 typedef uint64_t dios_flags_t;
 
 asmlinkage long sys_dios_create(dios_flags_t flags, dios_name_t** name, dios_ref_t** ref);
-asmlinkage long sys_dios_lookup(dios_flags_t flags, dios_name_t* name);
+asmlinkage long sys_dios_lookup(dios_flags_t flags, dios_name_t* name, dios_ref_t** refs, uint64_t* refs_cnt);
 asmlinkage long sys_dios_run(void);
 asmlinkage long sys_dios_copy(void);
-asmlinkage long sys_dios_delete(void);
+asmlinkage long sys_dios_delete(dios_flags_t flags, dios_ref_t* ref);
 asmlinkage long sys_dios_start_read(void);
 asmlinkage long sys_dios_end_read(void);
 asmlinkage long sys_dios_start_write(void);

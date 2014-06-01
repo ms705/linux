@@ -10,7 +10,6 @@
 #define DAL_LINUX_H
 
 #include "include/dios.h"
-#include "include/dal.h"
 
 #include <linux/module.h>
 
