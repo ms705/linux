@@ -19,7 +19,7 @@ config DIOS_RESTRICT_LEGACY_SYSCALLS
 	  Disallow legacy syscalls being invoked by DIOS task binaries.
 
 config DIOS_RESTRICT_DIOS_SYSCALLS
-	bool "Restrict legacy syscalls for DIOS tasks"
+	bool "Restrict DIOS syscalls for legacy processes"
 	default n
 	help
 	  Disallow legacy syscalls being invoked by DIOS task binaries.
