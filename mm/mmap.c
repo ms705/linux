@@ -2954,6 +2954,7 @@ out:
 	kmem_cache_free(vm_area_cachep, vma);
 	return ret;
 }
+EXPORT_SYMBOL(install_special_mapping);
 
 static DEFINE_MUTEX(mm_all_locks_mutex);
 
