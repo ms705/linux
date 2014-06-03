@@ -19,15 +19,20 @@
 
 typedef uint64_t dios_flags_t;
 
-asmlinkage long sys_dios_create(dios_flags_t flags, dios_name_t** name, dios_ref_t** ref);
-asmlinkage long sys_dios_lookup(dios_flags_t flags, dios_name_t* name, dios_ref_t** refs, uint64_t* refs_cnt);
-asmlinkage long sys_dios_run(void);
-asmlinkage long sys_dios_copy(void);
+asmlinkage long sys_dios_create(dios_flags_t flags, dios_name_t** name,
+                                dios_ref_t** ref);
+asmlinkage long sys_dios_lookup(dios_flags_t flags, dios_name_t* name,
+                                dios_ref_t** refs, uint64_t* refs_cnt);
+asmlinkage long sys_dios_run(dios_flags_t flags, dios_ref_t* ref,
+                             dios_ref_t** exec_ref);
+asmlinkage long sys_dios_copy(dios_flags_t flags, dios_ref_t** refs,
+                              uint64_t ref_count, dios_ref_t* target);
 asmlinkage long sys_dios_delete(dios_flags_t flags, dios_ref_t* ref);
 asmlinkage long sys_dios_start_read(void);
 asmlinkage long sys_dios_end_read(void);
-asmlinkage long sys_dios_start_write(void);
-asmlinkage long sys_dios_end_write(void);
+asmlinkage long sys_dios_start_write(dios_flags_t flags, dios_ref_t* ref,
+                                     uint64_t len);
+asmlinkage long sys_dios_end_write(dios_flags_t flags, dios_ref_t* ref);
 asmlinkage long sys_dios_select(void);
 
 asmlinkage long sys_dios_test(void);
