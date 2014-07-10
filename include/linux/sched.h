@@ -57,6 +57,10 @@ struct sched_param {
 
 #include <asm/processor.h>
 
+#ifdef CONFIG_DIOS_PCBEXT
+#include <dios/task.h>
+#endif
+
 #define SCHED_ATTR_SIZE_VER0	48	/* sizeof first published struct */
 
 /*
@@ -1584,6 +1588,7 @@ struct task_struct {
 #ifdef CONFIG_DIOS_PCBEXT
 	bool is_dios_task;
 	bool is_dios_coordinator;
+  struct dios_task_info* dios_task_info;
 #endif
 };
 

@@ -10,7 +10,7 @@
 
 #include <linux/kallsyms.h>
 
-#include "include/utils.h"
+#include <dios/utils.h>
 
 #define DIOS_MODULE_NAME "dios"
 #define DIOS_DAL_NAME "dios_dal_linux"
@@ -46,4 +46,3 @@ out:
   mutex_unlock(&module_mutex);
   return (mod != 0);
 }
-

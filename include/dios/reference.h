@@ -1,5 +1,5 @@
-#ifndef DIOS_REFERENCE_H
-#define DIOS_REFERENCE_H
+#ifndef _DIOS_REFERENCE_H
+#define _DIOS_REFERENCE_H
 
 #define D_REF_PERM_READ  0x1
 #define D_REF_PERM_WRITE 0x2
@@ -10,6 +10,7 @@ typedef enum {
   D_REF_SHMEM,
   D_REF_BLOB,
   D_REF_HDFS,
+  D_REF_SPECIAL,
 } dios_ref_type_t;
 
 /* Reference proximity indication */
@@ -56,8 +57,4 @@ typedef struct {
   uint64_t ref_count;
 } dios_kref_t;
 
-
-dios_kref_t* dios_kref_alloc(dios_name_t* name);
-void dios_kref_print(dios_kref_t* kref);
-
-#endif /* DIOS_REFERENCE_H */
+#endif /* _DIOS_REFERENCE_H */

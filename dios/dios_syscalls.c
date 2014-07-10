@@ -11,8 +11,11 @@
 #include <linux/syscalls.h>
 #include <linux/signal.h>
 
-#include "include/dios.h"
-#include "include/utils.h"
+#include <dios/dios.h>
+#include <dios/name.h>
+#include <dios/reference.h>
+#include <dios/utils.h>
+#include <dios/task.h>
 
 /* syscall handler for DIOS_CREATE */
 SYSCALL_DEFINE3(dios_create, dios_flags_t, flags, dios_name_t**, name,

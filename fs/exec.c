@@ -65,6 +65,10 @@
 
 #include <trace/events/sched.h>
 
+#ifdef CONFIG_DIOS_PCBEXT
+#include <dios/task.h>
+#endif
+
 int suid_dumpable = 0;
 
 static LIST_HEAD(formats);
@@ -1525,19 +1529,25 @@ static int do_execve_common(struct filename *filename,
 	if (retval < 0)
 		goto out;
 
+#ifdef CONFIG_DIOS_PCBEXT
   /* set the DIOS PCB flag if this is a DIOS binary */
   /* TODO(malte): this is currently a giant hack! */
 	is_dios = (current->is_dios_task || strstr(filename->name, "dios"));
 	if (is_dios != 0) {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
- 		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n", is_dios, filename->name);
+ 		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n",
+           is_dios, filename->name);
 #endif
  		current->is_dios_task = 1;
+    current->dios_task_info =
+      (dios_task_info_t*)kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
 	} else {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
- 		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n", is_dios, filename->name);
+ 		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n",
+           is_dios, filename->name);
 #endif
 	}
+#endif
 
 	/* execve succeeded */
 	current->fs->in_exec = 0;
