@@ -19,7 +19,6 @@
 void* dios_get_syscall_handler_address(const char* syscall) {
   unsigned long call_addr;
   call_addr = kallsyms_lookup_name(syscall);
-  //call_ptr = ((long *)(void))call_addr;
   return (void*)call_addr;
 }
 
