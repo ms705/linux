@@ -1449,7 +1449,9 @@ static int do_execve_common(struct filename *filename,
 	struct file *file;
 	struct files_struct *displaced;
 	int retval;
+#ifdef CONFIG_DIOS_PCBEXT
 	bool is_dios;  // N.B.: DIOS addition
+#endif
 
 	if (IS_ERR(filename))
 		return PTR_ERR(filename);
@@ -1541,6 +1543,7 @@ static int do_execve_common(struct filename *filename,
  		current->is_dios_task = 1;
     current->dios_task_info =
       (dios_task_info_t*)kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
+    dios_init_task(current);
 	} else {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
  		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n",
