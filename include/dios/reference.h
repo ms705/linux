@@ -1,6 +1,8 @@
 #ifndef _DIOS_REFERENCE_H
 #define _DIOS_REFERENCE_H
 
+#include <dios/name.h>
+
 #define D_REF_PERM_READ  0x1
 #define D_REF_PERM_WRITE 0x2
 #define D_REF_PERM_EXEC  0x4
@@ -55,6 +57,8 @@ typedef struct {
   //uint64_t in_selector;
   dios_ref_t* owner_task;
   uint64_t ref_count;
+  // For putting krefs into linked lists
+  struct list_head list;
 } dios_kref_t;
 
 #endif /* _DIOS_REFERENCE_H */
