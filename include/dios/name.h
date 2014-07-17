@@ -7,6 +7,7 @@
 
 #define D_NAME_GEN_DETERMINISTIC 0x1
 #define D_NAME_GEN_RANDOM 0x2
+#define D_NAME_GEN_DETERMINISTIC_STRING 0x4
 
 typedef struct dios_name {
   union {

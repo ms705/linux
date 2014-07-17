@@ -16,6 +16,7 @@
 typedef struct dios_task_info {
   void* name_table;
   void* ref_table;
+  dios_name_t* self_name;
   dios_kref_t* self_kref;
   uint64_t spawn_counter;
 } dios_task_info_t;
