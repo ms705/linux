@@ -1541,8 +1541,12 @@ static int do_execve_common(struct filename *filename,
            is_dios, filename->name);
 #endif
  		current->is_dios_task = 1;
-    current->dios_task_info =
-      (dios_task_info_t*)kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
+    /* Allocate dios_task_info struct if it hasn't been allocated by the
+       UMH already */
+    if (!current->dios_task_info) {
+      current->dios_task_info =
+          (dios_task_info_t*)kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
+    }
     dios_init_task(current);
 	} else {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
