@@ -22,5 +22,6 @@ typedef struct dios_task_info {
 } dios_task_info_t;
 
 extern int dios_init_task(struct task_struct* task_struct);
+extern int dios_exit_task(struct task_struct* task_struct);
 
 #endif  // _DIOS_TASK_H

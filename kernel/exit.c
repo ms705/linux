@@ -59,6 +59,10 @@
 #include <asm/pgtable.h>
 #include <asm/mmu_context.h>
 
+#ifdef CONFIG_DIOS_PCBEXT
+#include <dios/task.h>
+#endif
+
 static void exit_mm(struct task_struct * tsk);
 
 static void __unhash_process(struct task_struct *p, bool group_dead)
@@ -741,6 +745,10 @@ void do_exit(long code)
 		set_current_state(TASK_UNINTERRUPTIBLE);
 		schedule();
 	}
+
+#ifdef CONFIG_DIOS_PCBEXT
+  dios_exit_task(current);
+#endif
 
 	exit_signals(tsk);  /* sets PF_EXITING */
 	/*

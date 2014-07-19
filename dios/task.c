@@ -29,3 +29,20 @@ int dios_init_task(struct task_struct* task_struct) {
   return (*call_addr)(task_struct);
 }
 
+int dios_exit_task(struct task_struct* task_struct) {
+  long (*call_addr)(void);
+  /* Is the DIOS module loaded? If not, die. */
+  if (!dios_module_loaded() || !task_struct->is_dios_task) {
+    return -ENOSYS;
+  }
+  /* Retrieve handler address from symbol table */
+  call_addr = (long (*)(dios_kref_t*))
+      dios_get_syscall_handler_address("dios_task_exit");
+  if (call_addr == NULL) {
+    printk(KERN_ALERT "DIOS module loaded, but for %s missing!",
+           "dios_task_exit");
+    return -ENOSYS;
+  }
+  /* Invoke handler */
+  return (*call_addr)();
+}
