@@ -34,10 +34,14 @@ bool dios_module_loaded(void) {
   mod = find_module(DIOS_MODULE_NAME);
 
   if (!mod) {
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
     printk("DIOS module NOT loaded.\n");
+#endif
     goto out;
   } else {
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
     printk("DIOS module loaded! :)\n");
+#endif
     goto out; 
   }
 
