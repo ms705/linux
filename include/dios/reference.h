@@ -45,7 +45,10 @@ typedef struct {
   uint64_t id; 
   // N.B.: ref is allocated in VIRTUAL memory, as it
   // gets passed back to user-space
+  // ref holds the kernel-space pointer to the reference struct
   dios_ref_t* ref;
+  // uref holds the user-space pointer to the reference struct
+  dios_ref_t* __user uref;
   // The name, by contrast, is in kernel memory and only *copied*
   // to user-space.
   dios_name_t* name;
