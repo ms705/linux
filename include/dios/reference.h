@@ -62,6 +62,10 @@ typedef struct {
   uint64_t ref_count;
   // For putting krefs into linked lists
   struct list_head list;
+  // For linking chains of iovecs currently granted to user-space
+  // for reading and writing
+  struct list_head read_iov_list;
+  struct list_head write_iov_list;
 } dios_kref_t;
 
 #endif /* _DIOS_REFERENCE_H */

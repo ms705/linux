@@ -16,4 +16,11 @@
 
 typedef uint64_t dios_flags_t;
 
+typedef struct dios_iovec {
+  void* __user buf;
+  uint64_t len;
+  // iovecs can be part of doubly-linked chains
+  struct list_head list;
+} dios_iovec_t;
+
 #endif  // _DIOS_DIOS_H
