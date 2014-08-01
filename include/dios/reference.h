@@ -13,6 +13,7 @@ typedef enum {
   D_REF_BLOB,
   D_REF_HDFS,
   D_REF_SPECIAL,
+  D_REF_TASK,
 } dios_ref_type_t;
 
 /* Reference proximity indication */
