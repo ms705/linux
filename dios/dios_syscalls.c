@@ -186,13 +186,22 @@ SYSCALL_DEFINE3(dios_end_write, dios_flags_t, flags, dios_ref_t*, ref,
 }
 
 /* syscall handler for DIOS_SELECT */
-SYSCALL_DEFINE0(dios_select) {
-  void* call_addr;
+SYSCALL_DEFINE4(dios_select, dios_flags_t, flags, dios_ref_t**, refs,
+                uint64_t, num_refs, dios_ref_t**, selected) {
+  long (*call_addr)(dios_flags_t, dios_ref_t**, uint64_t, dios_ref_t**);
+  /* Is the DIOS module loaded? If not, die. */
   if (!dios_module_loaded()) {
     return -ENOSYS;
   }
+  /* Retrieve handler address from symbol table */
   call_addr = dios_get_syscall_handler_address("dios_select");
-  return (*(long (*)(void))call_addr)();
+  if (call_addr == NULL) {
+    printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
+           "missing!", "dios_select");
+    return -ENOSYS;
+  }
+  /* Invoke handler */
+  return (*call_addr)(flags, refs, num_refs, selected);
 }
 
 /* syscall handler for DIOS_TEST */
