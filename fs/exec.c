@@ -1547,7 +1547,7 @@ static int do_execve_common(struct filename *filename,
       current->dios_task_info =
           (dios_task_info_t*)kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
     }
-    dios_init_task(current);
+    dios_init_task(current, filename->name);
 	} else {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
  		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n",

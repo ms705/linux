@@ -21,7 +21,8 @@ typedef struct dios_task_info {
   uint64_t spawn_counter;
 } dios_task_info_t;
 
-extern int dios_init_task(struct task_struct* task_struct);
+extern int dios_init_task(struct task_struct* task_struct,
+                          const char* filename);
 extern int dios_exit_task(struct task_struct* task_struct);
 
 #endif  // _DIOS_TASK_H
