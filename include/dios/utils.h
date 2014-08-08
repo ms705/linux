@@ -12,7 +12,7 @@
 
 #include <linux/module.h>
 
-void* dios_get_syscall_handler_address(const char* syscall);
+void* dios_get_syscall_handler_address(int syscall_num);
 bool dios_module_loaded(void);
 
 #endif  // DIOS_UTILS_H

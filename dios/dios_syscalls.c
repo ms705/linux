@@ -27,7 +27,7 @@ SYSCALL_DEFINE3(dios_create, dios_flags_t, flags, dios_name_t**, name,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_name_t**, dios_ref_t**))
-      dios_get_syscall_handler_address("dios_create");
+      dios_get_syscall_handler_address(__NR_dios_create);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_create");
@@ -47,7 +47,7 @@ SYSCALL_DEFINE4(dios_lookup, dios_flags_t, flags, dios_name_t*, name,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_name_t*, dios_ref_t**, uint64_t*))
-      dios_get_syscall_handler_address("dios_lookup");
+      dios_get_syscall_handler_address(__NR_dios_lookup);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_create");
@@ -67,7 +67,7 @@ SYSCALL_DEFINE3(dios_run, dios_flags_t, flags, dios_ref_t*, ref,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_ref_t**))
-      dios_get_syscall_handler_address("dios_run");
+      dios_get_syscall_handler_address(__NR_dios_run);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_run");
@@ -93,7 +93,7 @@ SYSCALL_DEFINE2(dios_delete, dios_flags_t, flags, dios_ref_t*, ref) {
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_ref_t*))
-      dios_get_syscall_handler_address("dios_delete");
+      dios_get_syscall_handler_address(__NR_dios_delete);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_delete");
@@ -113,7 +113,7 @@ SYSCALL_DEFINE3(dios_start_read, dios_flags_t, flags,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_iovec_t**))
-      dios_get_syscall_handler_address("dios_start_read");
+      dios_get_syscall_handler_address(__NR_dios_start_read);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_start_read");
@@ -135,7 +135,7 @@ SYSCALL_DEFINE3(dios_end_read, dios_flags_t, flags, dios_ref_t*, ref,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_iovec_t*))
-      dios_get_syscall_handler_address("dios_end_read");
+      dios_get_syscall_handler_address(__NR_dios_end_read);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_end_read");
@@ -155,7 +155,7 @@ SYSCALL_DEFINE4(dios_start_write, dios_flags_t, flags,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_ref_t*, uint64_t, dios_iovec_t**))
-      dios_get_syscall_handler_address("dios_start_write");
+      dios_get_syscall_handler_address(__NR_dios_start_write);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_start_write");
@@ -175,7 +175,7 @@ SYSCALL_DEFINE3(dios_end_write, dios_flags_t, flags, dios_ref_t*, ref,
   }
   /* Retrieve handler address from symbol table */
   call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_iovec_t*))
-      dios_get_syscall_handler_address("dios_end_write");
+      dios_get_syscall_handler_address(__NR_dios_end_write);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_end_write");
@@ -194,7 +194,7 @@ SYSCALL_DEFINE4(dios_select, dios_flags_t, flags, dios_ref_t**, refs,
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = dios_get_syscall_handler_address("dios_select");
+  call_addr = dios_get_syscall_handler_address(__NR_dios_select);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_select");
@@ -212,7 +212,7 @@ SYSCALL_DEFINE0(dios_test) {
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = (long (*)(void))dios_get_syscall_handler_address("dios_test");
+  call_addr = (long (*)(void))dios_get_syscall_handler_address(__NR_dios_test);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
            "missing!", "dios_test");

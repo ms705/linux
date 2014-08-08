@@ -15,10 +15,23 @@
 #define DIOS_MODULE_NAME "dios"
 #define DIOS_DAL_NAME "dios_dal_linux"
 
+#define DIOS_BASE_SYSCALL_NUM 316
+#define DIOS_SYSCALL_COUNT 13
+
+bool dios_syscall_lookup_table_initialised = false;
+EXPORT_SYMBOL(dios_syscall_lookup_table_initialised);
+
+unsigned long dios_syscall_lookup_table[DIOS_SYSCALL_COUNT];
+EXPORT_SYMBOL(dios_syscall_lookup_table);
+
 /* returns address of syscall handler symbol or 0 if not found */
-void* dios_get_syscall_handler_address(const char* syscall) {
+void* dios_get_syscall_handler_address(int syscall_num) {
   unsigned long call_addr;
-  call_addr = kallsyms_lookup_name(syscall);
+  if (dios_syscall_lookup_table_initialised) {
+    call_addr = dios_syscall_lookup_table[syscall_num - DIOS_BASE_SYSCALL_NUM];
+  } else
+    call_addr = 0;
+  //call_addr = kallsyms_lookup_name(syscall);
   return (void*)call_addr;
 }
 
