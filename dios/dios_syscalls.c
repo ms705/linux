@@ -58,17 +58,16 @@ SYSCALL_DEFINE4(dios_lookup, dios_flags_t, flags, dios_name_t*, name,
 }
 
 /* syscall handler for DIOS_RUN */
-SYSCALL_DEFINE5(dios_run, dios_flags_t, flags, dios_ref_t*, ref,
-                dios_name_t*, input_names, uint64_t, num_inputs,
-                dios_ref_t**, exec_ref) {
-  long (*call_addr)(dios_flags_t, dios_ref_t*, dios_name_t*, uint64_t,
+SYSCALL_DEFINE4(dios_run, dios_flags_t, flags, dios_ref_t*, ref,
+                dios_task_spec_t*, task_spec, dios_ref_t**, exec_ref) {
+  long (*call_addr)(dios_flags_t, dios_ref_t*, dios_task_spec_t*,
                     dios_ref_t**);
   /* Is the DIOS module loaded? If not, die. */
   if (!dios_module_loaded()) {
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_name_t*, uint64_t,
+  call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_task_spec_t*,
                         dios_ref_t**))
       dios_get_syscall_handler_address(__NR_dios_run);
   if (call_addr == NULL) {
@@ -77,7 +76,7 @@ SYSCALL_DEFINE5(dios_run, dios_flags_t, flags, dios_ref_t*, ref,
     return -ENOSYS;
   }
   /* Invoke handler */
-  return (*call_addr)(flags, ref, input_names, num_inputs, exec_ref);
+  return (*call_addr)(flags, ref, task_spec, exec_ref);
 }
 
 /* syscall handler for DIOS_COPY */
