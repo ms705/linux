@@ -53,7 +53,7 @@ bool dios_module_loaded(void) {
     goto out;
   } else {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
-    printk("DIOS module loaded! :)\n");
+    //printk("DIOS module loaded! :)\n");
 #endif
     goto out; 
   }
