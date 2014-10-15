@@ -9,24 +9,31 @@ config DIOS_PCBEXT
 config DIOS_SYSCALLS
 	bool "Enable additional DIOS syscalls"
 	default n
+  select DIOS_PCBEXT
 	help
 	  Enables the additional syscalls introduced by DIOS.
 
 config DIOS_RESTRICT_LEGACY_SYSCALLS
 	bool "Restrict legacy syscalls for DIOS tasks"
 	default n
+  select DIOS_PCBEXT
+  select DIOS_SYSCALLS
 	help
 	  Disallow legacy syscalls being invoked by DIOS task binaries.
 
 config DIOS_RESTRICT_DIOS_SYSCALLS
 	bool "Restrict DIOS syscalls for legacy processes"
 	default n
+  select DIOS_PCBEXT
+  select DIOS_SYSCALLS
 	help
 	  Disallow legacy syscalls being invoked by DIOS task binaries.
 
 config DIOS_DEBUG_VERBOSE
 	bool "Verbose debug output"
 	default n
+  select DIOS_PCBEXT
+  select DIOS_SYSCALLS
 	help
 		Produce noisy debug output from DIOS kernel code.
 
