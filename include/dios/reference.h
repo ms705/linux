@@ -7,20 +7,12 @@
 #define D_REF_PERM_WRITE 0x2
 #define D_REF_PERM_EXEC  0x4
 
-/* Reference types */
-typedef enum {
-  D_REF_SHMEM,
-  D_REF_BLOB,
-  D_REF_HDFS,
-  D_REF_SPECIAL,
-  D_REF_TASK,
-} dios_ref_type_t;
-
 /* Reference proximity indication */
 typedef enum {
   D_REF_LOCAL_TO_CPU,
   D_REF_LOCAL_MEMORY,
   D_REF_LOCAL_DISK,
+  D_REF_LOCAL_DEVICE,
   D_REF_REMOTE_MEMORY_1HOP,
   D_REF_REMOTE_MEMORY_MULTIHOP,
   D_REF_REMOTE_MEMORY_DISTANT,
@@ -49,7 +41,7 @@ typedef struct {
   /* Reference ID (~= FD num) */
   uint64_t id;
   /* Object type */
-  dios_ref_type_t type;
+  dios_object_type_t type;
   /* Object proximity relative to this task */
   dios_ref_proximity_t proximity;
   /* Consistency levels offered for this reference */
@@ -75,23 +67,19 @@ typedef struct {
   /* uref holds the user-space pointer to the reference struct */
   dios_ref_t* __user uref;
   /* The name, by contrast, is in kernel memory and only *copied*
-   * to user-space. */
+   * to user-space. This is a convenience field; it points to
+   * object->name. */
   dios_name_t* name;
-  /* Object type, matches ref->type */
-  dios_ref_type_t type;
-  /* Location: this is not necessarily a string -- may hold arbitrary
-     type-specific data. */
-  char* location;
-  /* Flags */
+  /* Object described by this reference */
+  dios_object_t* object;
+  /* Reference-specific flags */
   uint64_t flags;
-  /* Reference permissions */
+  /* Reference-specific permissions */
   uint64_t permissions;
   /* Current state of reference in MESI protocol */
   dios_kref_state_t state;
   /* Reference to task owning this reference, usually self_ref */
   dios_ref_t* owner_task;
-  /* Reference count for deletion */
-  uint64_t ref_count;
   /* For putting krefs into linked lists */
   struct list_head list;
   /* For linking chains of iovecs currently granted to user-space
