@@ -15,14 +15,19 @@
 
 /* run() flags */
 
+/* copy() flags */
+#define D_COPY_MAKE_LOCAL      0x1
+
 /* lookup() flags */
+#define D_LOOKUP_LOCAL_ONLY    0x1
 
 /* pause() flags */
 
 /* create() flags */
-#define D_CREATE_TYPE_SHMEM    0x1
-#define D_CREATE_TYPE_BLOB     0x2
-#define D_CREATE_TYPE_HDFS     0x4
+#define D_CREATE_TYPE_PRIVMEM  0x1
+#define D_CREATE_TYPE_SHMEM    0x2
+#define D_CREATE_TYPE_BLOB     0x4
+#define D_CREATE_TYPE_HDFS     0x8
 
 #define D_CREATE_LOCAL_ONLY    0x10
 #define D_CREATE_BROADCAST     0x20
