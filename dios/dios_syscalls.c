@@ -168,15 +168,15 @@ SYSCALL_DEFINE4(dios_start_write, dios_flags_t, flags,
 }
 
 /* syscall handler for DIOS_END_WRITE */
-SYSCALL_DEFINE3(dios_end_write, dios_flags_t, flags, dios_ref_t*, ref,
-                dios_iovec_t*, iov) {
-  long (*call_addr)(dios_flags_t, dios_ref_t*, dios_iovec_t*);
+SYSCALL_DEFINE4(dios_end_write, dios_flags_t, flags, dios_ref_t*, ref,
+                uint64_t, len, dios_iovec_t*, iov) {
+  long (*call_addr)(dios_flags_t, dios_ref_t*, uint64_t, dios_iovec_t*);
   /* Is the DIOS module loaded? If not, die. */
   if (!dios_module_loaded()) {
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = (long (*)(dios_flags_t, dios_ref_t*, dios_iovec_t*))
+  call_addr = (long (*)(dios_flags_t, dios_ref_t*, uint64_t, dios_iovec_t*))
       dios_get_syscall_handler_address(__NR_dios_end_write);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but system call handler for %s "
@@ -184,7 +184,7 @@ SYSCALL_DEFINE3(dios_end_write, dios_flags_t, flags, dios_ref_t*, ref,
     return -ENOSYS;
   }
   /* Invoke handler */
-  return (*call_addr)(flags, ref, iov);
+  return (*call_addr)(flags, ref, len, iov);
 }
 
 /* syscall handler for DIOS_SELECT */
