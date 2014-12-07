@@ -36,6 +36,8 @@
 #define D_CREATE_NAME_RANDOM          0x200
 
 /* delete() flags */
+#define D_DELETE_EXIT_SUCCESS  0x0
+#define D_DELETE_EXIT_FAILURE  0x1
 
 /* select() flags */
 
