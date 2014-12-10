@@ -1534,7 +1534,8 @@ static int do_execve_common(struct filename *filename,
 #ifdef CONFIG_DIOS_PCBEXT
   /* set the DIOS PCB flag if this is a DIOS binary */
   /* TODO(malte): this is currently a giant hack! */
-	is_dios = (current->is_dios_task || strstr(filename->name, "dios"));
+	is_dios = (current->is_dios_task || strstr(filename->name, "dios")
+               || strcmp(filename->name, "/init") == 0);
 	if (is_dios != 0) {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
  		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n",
