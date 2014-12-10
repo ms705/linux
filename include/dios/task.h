@@ -29,6 +29,9 @@ typedef struct dios_task_spec {
   /* Outputs */
   dios_name_t** output_names;
   uint64_t output_count;
+  /* Arguments */
+  int argc;
+  char** argv;
 } dios_task_spec_t;
 
 extern int dios_init_task(struct task_struct* task_struct,
