@@ -1633,7 +1633,6 @@ long do_fork(unsigned long clone_flags,
 	}
 	return nr;
 }
-EXPORT_SYMBOL(do_fork);
 
 /*
  * Create a kernel thread.

@@ -59,7 +59,7 @@
 #include <asm/pgtable.h>
 #include <asm/mmu_context.h>
 
-#ifdef CONFIG_DIOS_PCBEXT
+#ifdef CONFIG_DIOS
 #include <dios/task.h>
 #endif
 
@@ -746,8 +746,8 @@ void do_exit(long code)
 		schedule();
 	}
 
-#ifdef CONFIG_DIOS_PCBEXT
-  dios_exit_task(current);
+#ifdef CONFIG_DIOS
+	dios_exit_task(current);
 #endif
 
 	exit_signals(tsk);  /* sets PF_EXITING */

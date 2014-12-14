@@ -65,10 +65,6 @@
 
 #include <trace/events/sched.h>
 
-#ifdef CONFIG_DIOS_PCBEXT
-#include <dios/task.h>
-#endif
-
 int suid_dumpable = 0;
 
 static LIST_HEAD(formats);
@@ -1449,9 +1445,6 @@ static int do_execve_common(struct filename *filename,
 	struct file *file;
 	struct files_struct *displaced;
 	int retval;
-#ifdef CONFIG_DIOS_PCBEXT
-	bool is_dios;  // N.B.: DIOS addition
-#endif
 
 	if (IS_ERR(filename))
 		return PTR_ERR(filename);
@@ -1527,35 +1520,17 @@ static int do_execve_common(struct filename *filename,
 	if (retval < 0)
 		goto out;
 
+#ifdef CONFIG_DIOS
+	if (!current->is_pure_dios) {
+		/* Revoke DIOS privilage, it must undergo its own rite of passage. */
+		current->is_dios_task = 0;
+		current->dios_task_info = NULL;
+	}
+#endif
+
 	retval = exec_binprm(bprm);
 	if (retval < 0)
 		goto out;
-
-#ifdef CONFIG_DIOS_PCBEXT
-  /* set the DIOS PCB flag if this is a DIOS binary */
-  /* TODO(malte): this is currently a giant hack! */
-	is_dios = (current->is_dios_task || strstr(filename->name, "dios")
-               || strcmp(filename->name, "/init") == 0);
-	if (is_dios != 0) {
-#ifdef CONFIG_DIOS_DEBUG_VERBOSE
- 		printk("exec'ing a DIOS binary, strncmp returned %d for %s!\n",
-           is_dios, filename->name);
-#endif
- 		current->is_dios_task = 1;
-    /* Allocate dios_task_info struct if it hasn't been allocated by the
-       UMH already */
-    if (!current->dios_task_info) {
-      current->dios_task_info =
-          (dios_task_info_t*)kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
-    }
-    dios_init_task(current, filename->name);
-	} else {
-#ifdef CONFIG_DIOS_DEBUG_VERBOSE
- 		printk("exec'ing a non-DIOS binary, strncmp returned %d for %s!\n",
-           is_dios, filename->name);
-#endif
-	}
-#endif
 
 	/* execve succeeded */
 	current->fs->in_exec = 0;

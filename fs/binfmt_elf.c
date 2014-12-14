@@ -37,6 +37,7 @@
 #include <asm/uaccess.h>
 #include <asm/param.h>
 #include <asm/page.h>
+#include <linux/syscalls.h>
 
 #ifndef user_long_t
 #define user_long_t long
@@ -971,6 +972,71 @@ static int load_elf_binary(struct linux_binprm *bprm)
 		error = vm_mmap(NULL, 0, PAGE_SIZE, PROT_READ | PROT_EXEC,
 				MAP_FIXED | MAP_PRIVATE, 0);
 	}
+
+#ifdef CONFIG_DIOS
+	/* The DIOS ABI requires additional setup */
+	if (loc->elf_ex.e_ident[EI_OSABI] == ELFOSABI_DIOS) {
+		switch (loc->elf_ex.e_ident[EI_ABIVERSION]) {
+		case ELFABIVERSION_DIOS_PURE:
+			/* Must be invoked from dios_run so everything DIOS
+			   should be already setup by UMH */
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+			printk("ELF is pure DIOS\n");
+#endif
+			retval = -ENOEXEC;
+			if (!current->is_pure_dios) {
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+				printk("ELF is pure DIOS but not dios_run'd\n");
+#endif
+				goto out;
+			}
+			break;
+
+		case ELFABIVERSION_DIOS_LIMBO:
+			/* Could be called from either exec or dios_run but it
+			   wants to access DIOS and legacy syscalls so make sure
+			   the PCB is set up right */
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+			printk("ELF is DIOS limbo\n");
+#endif
+
+#ifdef CONFIG_DIOS_RESTRICT_LIMBO
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+			printk("DIOS limbo has been restricted. Downgrading to"
+			       " legacy.\n");
+#endif
+#else
+			/* Upgrade to have a DIOS PCB */
+			current->is_dios_task = 1;
+
+			if (!current->dios_task_info) {
+				current->dios_task_info =
+				  kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
+				retval = -ENOMEM;
+				if (!current->dios_task_info)
+					goto out;
+			}
+#endif
+			break;
+
+		default:
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+			printk("ELF is DIOS but version is unknown. Defaulting"
+			       " to legacy.\n");
+#endif
+			break;
+		}
+	}
+
+	if (current->is_dios_task) {
+        	/* Prepare the DIOS task */
+		dios_init_task(current, bprm->filename);
+	} else {
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+		printk("ELF loading as pure legacy. No DIOS allowed!\n");
+#endif
+	}
+#endif
 
 #ifdef ELF_PLAT_INIT
 	/*

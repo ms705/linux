@@ -57,7 +57,7 @@ struct sched_param {
 
 #include <asm/processor.h>
 
-#ifdef CONFIG_DIOS_PCBEXT
+#ifdef CONFIG_DIOS
 #include <dios/task.h>
 #endif
 
@@ -1585,10 +1585,11 @@ struct task_struct {
 	unsigned int	sequential_io;
 	unsigned int	sequential_io_avg;
 #endif
-#ifdef CONFIG_DIOS_PCBEXT
-	bool is_dios_task;
-	bool is_dios_coordinator;
-  struct dios_task_info* dios_task_info;
+#ifdef CONFIG_DIOS
+	unsigned is_dios_task:1;
+	unsigned is_dios_coordinator:1;
+	unsigned is_pure_dios:1;
+	struct dios_task_info* dios_task_info;
 #endif
 };
 

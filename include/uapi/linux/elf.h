@@ -322,15 +322,17 @@ typedef struct elf64_shdr {
   Elf64_Xword sh_entsize;	/* Entry size if section holds table */
 } Elf64_Shdr;
 
-#define	EI_MAG0		0		/* e_ident[] indexes */
-#define	EI_MAG1		1
-#define	EI_MAG2		2
-#define	EI_MAG3		3
-#define	EI_CLASS	4
-#define	EI_DATA		5
-#define	EI_VERSION	6
-#define	EI_OSABI	7
-#define	EI_PAD		8
+#define	EI_MAG0		  0		/* e_ident[] indexes */
+#define	EI_MAG1		  1
+#define	EI_MAG2		  2
+#define	EI_MAG3		  3
+#define	EI_CLASS	  4
+#define	EI_DATA		  5
+#define	EI_VERSION	  6
+#define	EI_OSABI	  7
+#define	EI_PAD		  8
+/* Linux doesn't use ABI version but it is in the standard */
+#define EI_ABIVERSION 8
 
 #define	ELFMAG0		0x7f		/* EI_MAG */
 #define	ELFMAG1		'E'
@@ -354,6 +356,10 @@ typedef struct elf64_shdr {
 
 #define ELFOSABI_NONE	0
 #define ELFOSABI_LINUX	3
+#define ELFOSABI_DIOS   0xD1
+
+#define ELFABIVERSION_DIOS_PURE  0x05
+#define ELFABIVERSION_DIOS_LIMBO 0x13
 
 #ifndef ELF_OSABI
 #define ELF_OSABI ELFOSABI_NONE
