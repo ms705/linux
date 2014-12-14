@@ -169,9 +169,15 @@ extern struct trace_event_functions exit_syscall_print_funcs;
 #endif
 
 #if defined(CONFIG_DIOS) && !defined(PURE_DIOS_SYSCALL_OVERRIDE)
+#ifdef CONFIG_DIOS_DEATH_ON_LEGACY_MISUSE
+#define SYSCALL_DIOS_CHECKPERMITTED(name)	\
+	if (current->is_pure_dios)		\
+		do_exit(SIGSYS);
+#else
 #define SYSCALL_DIOS_CHECKPERMITTED(name)	\
 	if (current->is_pure_dios)		\
 		return -ENOSYS;
+#endif
 #else
 #define SYSCALL_DIOS_CHECKPERMITTED(name)
 #endif

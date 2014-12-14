@@ -6,6 +6,12 @@ menuconfig DIOS
 
 if DIOS
 
+config DIOS_DEATH_ON_LEGACY_MISUSE
+	bool "Death penalty for legacy syscall misuse"
+	default n
+	help
+	  If a pure DIOS task makes a legacy syscall then it should be killed.
+
 config DIOS_RESTRICT_LIMBO
 	bool "Restrict limbo programs"
 	default n
