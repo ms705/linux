@@ -1587,8 +1587,8 @@ struct task_struct {
 #endif
 #ifdef CONFIG_DIOS
 	unsigned is_dios_task:1;
-	unsigned is_dios_coordinator:1;
 	unsigned is_pure_dios:1;
+	unsigned is_dios_coordinator:1;
 	struct dios_task_info* dios_task_info;
 #endif
 };

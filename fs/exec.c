@@ -1524,6 +1524,7 @@ static int do_execve_common(struct filename *filename,
 	if (!current->is_pure_dios) {
 		/* Revoke DIOS privilage, it must undergo its own rite of passage. */
 		current->is_dios_task = 0;
+		/* Not free'd here as still valid on other fork */
 		current->dios_task_info = NULL;
 	}
 #endif

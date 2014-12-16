@@ -997,32 +997,61 @@ static int load_elf_binary(struct linux_binprm *bprm)
 			   wants to access DIOS and legacy syscalls so make sure
 			   the PCB is set up right */
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
-			printk("ELF is DIOS limbo\n");
+			printk("ELF is DIOS limbo with is_dios_run=%d\n",
+			        current->is_pure_dios);
 #endif
 
+			if (current->is_pure_dios) {
 #ifdef CONFIG_DIOS_RESTRICT_LIMBO
+				/* Remain a pure DIOS task */
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
-			printk("DIOS limbo has been restricted. Downgrading to"
-			       " legacy.\n");
+				printk("Remaining a pure DIOS task\n");
 #endif
 #else
-			/* Upgrade to have a DIOS PCB */
-			current->is_dios_task = 1;
+				/* Allow legacy syscalls as allowing limbo */
+				struct file* console;
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+				printk("Use legacy syscalls in DIOS task\n");
+#endif
+				current->is_pure_dios = 0;
+				
+				/* Also need to install std{in,out,err} */
+				console = filp_open("/dev/console", O_RDWR, 0);
+				fd_install(0, console);
+				fd_install(1, console);
+				fd_install(2, console);
+#endif
+			} else {
+#ifdef CONFIG_DIOS_RESTRICT_LIMBO
+				/* Remain a legacy process */
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+				printk("Remaining a legacy process\n");
+#endif
+#else
+				/* Allow DIOS syscalls as allowing limbo */
+#ifdef CONFIG_DIOS_DEBUG_VERBOSE
+				printk("Can use DIOS from legacy process\n");
+#endif
+				current->is_dios_task = 1;
 
-			if (!current->dios_task_info) {
 				current->dios_task_info =
 				  kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
 				retval = -ENOMEM;
 				if (!current->dios_task_info)
 					goto out;
-			}
 #endif
+			}
 			break;
 
 		default:
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
-			printk("ELF is DIOS but version is unknown. Defaulting"
-			       " to legacy.\n");
+			if (current->is_pure_dios) {
+				printk("Unknown ABI version."
+				       " Defaulting to pure DIOS task\n");
+			} else {
+				printk("Unknown ABI version."
+				       " Defaulting to legacy process\n");
+			}
 #endif
 			break;
 		}
@@ -1033,7 +1062,7 @@ static int load_elf_binary(struct linux_binprm *bprm)
 		dios_init_task(current, bprm->filename);
 	} else {
 #ifdef CONFIG_DIOS_DEBUG_VERBOSE
-		printk("ELF loading as pure legacy. No DIOS allowed!\n");
+		printk("ELF loading as legacy process. No DIOS allowed!\n");
 #endif
 	}
 #endif
