@@ -1,3 +1,4 @@
+// TODO: put in linux/dios src dir
 /*
  *  dios/include/utils.h
  *
@@ -5,14 +6,12 @@
  *
  */
 
-#ifndef DIOS_UTILS_H
-#define DIOS_UTILS_H
-
-#include <dios/dios.h>
+#ifndef _DIOS_UTILS_H
+#define _DIOS_UTILS_H
 
 #include <linux/module.h>
 
 void* dios_get_syscall_handler_address(int syscall_num);
 bool dios_module_loaded(void);
 
-#endif  // DIOS_UTILS_H
+#endif  // _DIOS_UTILS_H

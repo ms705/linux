@@ -58,7 +58,7 @@ struct sched_param {
 #include <asm/processor.h>
 
 #ifdef CONFIG_DIOS
-#include <dios/task.h>
+#include <linux/dios.h>
 #endif
 
 #define SCHED_ATTR_SIZE_VER0	48	/* sizeof first published struct */

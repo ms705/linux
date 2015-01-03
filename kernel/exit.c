@@ -60,7 +60,7 @@
 #include <asm/mmu_context.h>
 
 #ifdef CONFIG_DIOS
-#include <dios/task.h>
+#include <linux/dios.h>
 #endif
 
 static void exit_mm(struct task_struct * tsk);

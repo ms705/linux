@@ -7,9 +7,11 @@
 
 #include <linux/kallsyms.h>
 #include <linux/sched.h>
+#include <linux/slab.h>
 
 #include <dios/task.h>
-#include <dios/utils.h>
+
+#include "utils.h"
 
 int dios_init_task(struct task_struct* task_struct, const char* filename) {
   long (*call_addr)(const char*);

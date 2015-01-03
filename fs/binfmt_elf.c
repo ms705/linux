@@ -39,6 +39,11 @@
 #include <asm/page.h>
 #include <linux/syscalls.h>
 
+#ifdef CONFIG_DIOS
+#include <linux/dios.h>
+#include <dios/task.h>
+#endif
+
 #ifndef user_long_t
 #define user_long_t long
 #endif
@@ -1053,12 +1058,12 @@ static int load_elf_binary(struct linux_binprm *bprm)
 			printk("Can use DIOS syscalls from legacy process\n");
 #endif
 			current->is_dios_task = 1;
-
+			/* Make sure the task info is allocated */
 			current->dios_task_info =
 			  kzalloc(sizeof(dios_task_info_t), GFP_KERNEL);
 			retval = -ENOMEM;
 			if (!current->dios_task_info)
-				goto out;
+			  goto out;
 #endif
 			break;
 

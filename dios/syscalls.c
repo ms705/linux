@@ -13,11 +13,13 @@
 #include <linux/syscalls.h>
 #include <linux/signal.h>
 
-#include <dios/dios.h>
-#include <dios/name.h>
-#include <dios/reference.h>
-#include <dios/utils.h>
-#include <dios/task.h>
+#include <uapi/dios/flags.h>
+#include <uapi/dios/iovec.h>
+#include <uapi/dios/name.h>
+#include <uapi/dios/reference.h>
+#include <uapi/dios/task.h>
+
+#include "utils.h"
 
 #define __DSC_TYPES(t, a) t
 

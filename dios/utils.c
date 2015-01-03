@@ -10,7 +10,7 @@
 
 #include <linux/kallsyms.h>
 
-#include <dios/utils.h>
+#include "utils.h"
 
 #define DIOS_MODULE_NAME "dios"
 #define DIOS_DAL_NAME "dios_dal_linux"
