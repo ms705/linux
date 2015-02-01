@@ -16,7 +16,7 @@
 #include <uapi/dios/flags.h>
 #include <uapi/dios/iovec.h>
 #include <uapi/dios/name.h>
-#include <uapi/dios/reference.h>
+#include <uapi/dios/ref.h>
 #include <uapi/dios/task.h>
 
 #include "utils.h"
@@ -50,7 +50,9 @@
   }                                                                          \
   return (*call_addr)(__MAP(x,__SC_ARGS,__VA_ARGS__));
 
-DIOS_SYSCALL_PROXY3(dios_create, dios_flags_t , flags,
+DIOS_SYSCALL_PROXY5(dios_create, dios_flags_t , flags,
+                                 dios_object_type_t, type,
+                                 void*, arg,
                                  dios_name_t**, name,
                                  dios_ref_t** , ref);
 
