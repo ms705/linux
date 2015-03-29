@@ -16,7 +16,7 @@
 #include <uapi/dios/flags.h>
 #include <uapi/dios/iovec.h>
 #include <uapi/dios/name.h>
-#include <uapi/dios/reference.h>
+#include <uapi/dios/ref.h>
 #include <uapi/dios/task.h>
 
 #include "utils.h"
