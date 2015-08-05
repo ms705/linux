@@ -20,7 +20,7 @@ int dios_init_task(struct task_struct* task_struct, const char* filename) {
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = (long (*)(const char*))dios_get_syscall_handler_address(327);
+  call_addr = (long (*)(const char*))dios_get_syscall_handler_address(613);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but for %s missing!",
            "dios_task_init");
@@ -37,7 +37,7 @@ int dios_exit_task(struct task_struct* task_struct) {
     return -ENOSYS;
   }
   /* Retrieve handler address from symbol table */
-  call_addr = (long (*)(void))dios_get_syscall_handler_address(328);
+  call_addr = (long (*)(void))dios_get_syscall_handler_address(614);
   if (call_addr == NULL) {
     printk(KERN_ALERT "DIOS module loaded, but for %s missing!",
            "dios_task_exit");

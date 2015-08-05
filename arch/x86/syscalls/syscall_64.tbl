@@ -322,17 +322,19 @@
 313	common	finit_module		sys_finit_module
 314	common	sched_setattr		sys_sched_setattr
 315	common	sched_getattr		sys_sched_getattr
-316	64	dios_create		sys_dios_create
-317	64	dios_lookup		sys_dios_lookup
-318	64	dios_run		sys_dios_run
-319	64	dios_copy		sys_dios_copy
-320	64	dios_delete		sys_dios_delete
-321	64	dios_start_read		sys_dios_start_read
-322	64	dios_end_read		sys_dios_end_read
-323	64	dios_start_write	sys_dios_start_write
-324	64	dios_end_write		sys_dios_end_write
-325	64	dios_select		sys_dios_select
-326	64	dios_test		sys_dios_test
+600	64	dios_create		sys_dios_create
+601	64	dios_lookup		sys_dios_lookup
+602	64	dios_run		sys_dios_run
+603	64	dios_copy		sys_dios_copy
+604	64	dios_delete		sys_dios_delete
+605	64	dios_acquire_read	sys_dios_acquire_read
+606	64	dios_commit_read	sys_dios_commit_read
+607	64	dios_release_read	sys_dios_release_read
+608	64	dios_acquire_write	sys_dios_acquire_write
+609	64	dios_commit_write	sys_dios_commit_write
+610	64	dios_release_write	sys_dios_release_write
+611	64	dios_select		sys_dios_select
+612	64	dios_info		sys_dios_info
  
 
 #

@@ -74,28 +74,36 @@ DIOS_SYSCALL_PROXY4(dios_copy, dios_flags_t, flags,
 DIOS_SYSCALL_PROXY2(dios_delete, dios_flags_t, flags,
                                 dios_ref_t*  , ref);
 
-DIOS_SYSCALL_PROXY4(dios_start_read, dios_flags_t  , flags,
-                                     dios_ref_t*   , ref,
-                                     uint64_t      , len,
-                                     dios_iovec_t**, iov);
+DIOS_SYSCALL_PROXY4(dios_acquire_read, dios_flags_t  , flags,
+                                       dios_ref_t*   , ref,
+                                       uint64_t      , len,
+                                       dios_iovec_t**, iov);
 
-DIOS_SYSCALL_PROXY3(dios_end_read, dios_flags_t , flags,
-                                   dios_ref_t*  , ref,
-                                   dios_iovec_t*, iov);
+DIOS_SYSCALL_PROXY3(dios_commit_read, dios_flags_t , flags,
+                                      dios_ref_t*  , ref,
+                                      dios_iovec_t*, iov);
 
-DIOS_SYSCALL_PROXY4(dios_start_write, dios_flags_t  , flags,
-                                      dios_ref_t*   , ref,
-                                      uint64_t, len ,
-                                      dios_iovec_t**, iov);
+DIOS_SYSCALL_PROXY3(dios_release_read, dios_flags_t , flags,
+                                       dios_ref_t*  , ref,
+                                       dios_iovec_t*, iov);
 
-DIOS_SYSCALL_PROXY4(dios_end_write, dios_flags_t , flags,
-                                    dios_ref_t*  , ref,
-                                    uint64_t     , len,
-                                    dios_iovec_t*, iov);
+DIOS_SYSCALL_PROXY4(dios_acquire_write, dios_flags_t  , flags,
+                                        dios_ref_t*   , ref,
+                                        uint64_t, len ,
+                                        dios_iovec_t**, iov);
+
+DIOS_SYSCALL_PROXY4(dios_commit_write, dios_flags_t , flags,
+                                       dios_ref_t*  , ref,
+                                       uint64_t     , len,
+                                       dios_iovec_t*, iov);
+
+DIOS_SYSCALL_PROXY3(dios_release_write, dios_flags_t , flags,
+                                        dios_ref_t*  , ref,
+                                        dios_iovec_t*, iov);
 
 DIOS_SYSCALL_PROXY4(dios_select, dios_flags_t, flags,
                                  dios_ref_t**, refs,
                                  uint64_t    , num_refs,
                                  dios_ref_t**, selected);
 
-DIOS_SYSCALL_PROXY0(dios_test);
+DIOS_SYSCALL_PROXY0(dios_info);

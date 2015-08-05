@@ -15,8 +15,8 @@
 #define DIOS_MODULE_NAME "dios"
 #define DIOS_DAL_NAME "dios_dal_linux"
 
-#define DIOS_BASE_SYSCALL_NUM 316
-#define DIOS_SYSCALL_COUNT 13
+#define DIOS_BASE_SYSCALL_NUM 600
+#define DIOS_SYSCALL_COUNT 15
 
 bool dios_syscall_lookup_table_initialised = false;
 EXPORT_SYMBOL(dios_syscall_lookup_table_initialised);
