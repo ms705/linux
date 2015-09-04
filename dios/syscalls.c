@@ -50,11 +50,12 @@
   }                                                                          \
   return (*call_addr)(__MAP(x,__SC_ARGS,__VA_ARGS__));
 
-DIOS_SYSCALL_PROXY5(dios_create, dios_flags_t , flags,
+DIOS_SYSCALL_PROXY6(dios_create, dios_flags_t , flags,
                                  dios_object_type_t, type,
                                  void*, arg,
                                  dios_name_t**, name,
-                                 dios_ref_t** , ref);
+                                 dios_ref_t** , ref,
+                                 uint64_t, host_id);
 
 DIOS_SYSCALL_PROXY4(dios_lookup, dios_flags_t, flags,
                                  dios_name_t*, name,
